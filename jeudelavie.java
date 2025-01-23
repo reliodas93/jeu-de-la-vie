@@ -20,13 +20,30 @@ public class jeudelavie {
             System.out.print("Colonne : ");
             int colonne = sc.nextInt();
 
-            if (ligne == -1 && colonne == -1) break; // Terminer l'initialisation
+            if (ligne == -1 && colonne == -1) break;
 
             if (ligne >= 0 && ligne < lignes && colonne >= 0 && colonne < colonnes) {
                 grille[ligne][colonne] = true;
             } else {
                 System.out.println("Coordonnées invalides, réessayez !");
             }
+        }
+        // Demande du nombre d'itérations
+        System.out.print("Entrez le nombre de generation : ");
+        int iterations = sc.nextInt();
+
+        // Boucle pour faire évoluer la grille
+        for (int generation = 0; generation < iterations; generation++) {
+            System.out.println("Génération " + (generation + 1) + ":");
+
+            // Afficher la grille
+            for (int i = 0; i < lignes; i++) {
+                for (int j = 0; j < colonnes; j++) {
+                    System.out.print(grille[i][j] ? "1 " : "0 ");
+                }
+                System.out.println();
+            }
+            System.out.println();
         }
     }
 }
