@@ -45,5 +45,32 @@ public class jeudelavie {
             }
             System.out.println();
         }
+        // Calculer la prochaine génération
+        for (int i = 0; i < lignes; i++) {
+            for (int j = 0; j < colonnes; j++) {
+                int voisinsVivants = 0;
+
+                // Compter les voisins vivants
+                for (int di = -1; di <= 1; di++) {
+                    for (int dj = -1; dj <= 1; dj++) {
+                        if (di == 0 && dj == 0) continue;
+                        int voisinX = i + di;
+                        int voisinY = j + dj;
+
+                        if (voisinX >= 0 && voisinX < lignes && voisinY >= 0 && voisinY < colonnes && grille[voisinX][voisinY]) {
+                            voisinsVivants++;
+                        }
+                    }
+                }
+
+                // Appliquer les règles
+                if (grille[i][j]) {
+                    nouvelleGrille[i][j] = (voisinsVivants == 2 || voisinsVivants == 3);
+                } else {
+                    nouvelleGrille[i][j] = (voisinsVivants == 3);
+                }
+            }
+        }
+
     }
 }
