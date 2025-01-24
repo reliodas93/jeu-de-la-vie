@@ -1,8 +1,9 @@
 import java.util.Scanner;
+public class jeuDeLaVie {
 
-public class jeudelavie {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
         // Initialisation de la grille
         System.out.print("Entrez le nombre de lignes : ");
         int lignes = sc.nextInt();
@@ -20,7 +21,7 @@ public class jeudelavie {
             System.out.print("Colonne : ");
             int colonne = sc.nextInt();
 
-            if (ligne == -1 && colonne == -1) break;
+            if (ligne == -1 && colonne == -1) break; // Terminer l'initialisation
 
             if (ligne >= 0 && ligne < lignes && colonne >= 0 && colonne < colonnes) {
                 grille[ligne][colonne] = true;
@@ -28,11 +29,12 @@ public class jeudelavie {
                 System.out.println("Coordonnées invalides, réessayez !");
             }
         }
+
         // Demande du nombre d'itérations
         System.out.print("Entrez le nombre de generation : ");
         int iterations = sc.nextInt();
 
-        // Boucle pour faire évoluer la grille
+        // Boucle pour afficher et faire évoluer la grille
         for (int generation = 0; generation < iterations; generation++) {
             System.out.println("Génération " + (generation + 1) + ":");
 
@@ -44,33 +46,50 @@ public class jeudelavie {
                 System.out.println();
             }
             System.out.println();
-        }
-        // Calculer la prochaine génération
-        for (int i = 0; i < lignes; i++) {
-            for (int j = 0; j < colonnes; j++) {
-                int voisinsVivants = 0;
 
-                // Compter les voisins vivants
-                for (int di = -1; di <= 1; di++) {
-                    for (int dj = -1; dj <= 1; dj++) {
-                        if (di == 0 && dj == 0) continue;
-                        int voisinX = i + di;
-                        int voisinY = j + dj;
+            // Calculer la prochaine génération
+            for (int i = 0; i < lignes; i++) {
+                for (int j = 0; j < colonnes; j++) {
+                    int voisinsVivants = 0;
 
-                        if (voisinX >= 0 && voisinX < lignes && voisinY >= 0 && voisinY < colonnes && grille[voisinX][voisinY]) {
-                            voisinsVivants++;
+                    // Compter les voisins vivants
+                    for (int di = -1; di <= 1; di++) {
+                        for (int dj = -1; dj <= 1; dj++) {
+                            if (di == 0 && dj == 0) continue; // Ignorer la cellule elle-même
+                            int voisinX = i + di;
+                            int voisinY = j + dj;
+
+                            if (voisinX >= 0 && voisinX < lignes && voisinY >= 0 && voisinY < colonnes && grille[voisinX][voisinY]) {
+                                voisinsVivants++;
+                            }
                         }
+                    }
+
+                    // Appliquer les règles
+                    if (grille[i][j]) { 
+                        nouvelleGrille[i][j] = (voisinsVivants == 2 || voisinsVivants == 3);
+                    } else {
+                        nouvelleGrille[i][j] = (voisinsVivants == 3);
                     }
                 }
 
-                // Appliquer les règles
-                if (grille[i][j]) {
-                    nouvelleGrille[i][j] = (voisinsVivants == 2 || voisinsVivants == 3);
-                } else {
-                    nouvelleGrille[i][j] = (voisinsVivants == 3);
+            }
+                // Mettre à jour la grille
+                for (int i = 0; i < lignes; i++) {
+                    for (int j = 0; j < colonnes; j++) {
+                        grille[i][j] = nouvelleGrille[i][j];
+                    }
                 }
+
+            // Pause pour observer l'évolution
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
 
+        sc.close();
     }
 }
+
